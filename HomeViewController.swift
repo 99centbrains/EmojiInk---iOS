@@ -89,6 +89,8 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
         let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
             UIAlertAction in
             self.ibo_drawView.destroyImage()
+            self.photoTrash()
+            
         }
         let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) {
             UIAlertAction in
@@ -268,7 +270,7 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
             
             actionSheetController.addAction(takePictureAction)
             //Create and add a second option action
-            let choosePictureAction: UIAlertAction = UIAlertAction(title: "Delete", style: .Default)
+            let choosePictureAction: UIAlertAction = UIAlertAction(title: "Delete Image", style: .Default)
                 { action -> Void in
                     self.photoTrash()
             }
@@ -297,19 +299,9 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
             //Just dismiss the action sheet
         }
         actionSheetController.addAction(cancelAction)
-        //Create and add first option action
-        let takePictureAction: UIAlertAction = UIAlertAction(title: "Camera", style: .Default)
-            { action -> Void in
-                
-                picker.delegate = self
-                picker.sourceType = .Camera
-                self.presentViewController(picker, animated: true, completion: nil)
-                
-                
-        }
-        actionSheetController.addAction(takePictureAction)
+        
         //Create and add a second option action
-        let choosePictureAction: UIAlertAction = UIAlertAction(title: "Photopicker", style: .Default)
+        let choosePictureAction: UIAlertAction = UIAlertAction(title: "Photo Library", style: .Default)
             { action -> Void in
                 
                 picker.delegate = self
@@ -319,6 +311,18 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
                 
         }
         actionSheetController.addAction(choosePictureAction)
+        
+        //Create and add first option action
+        let takePictureAction: UIAlertAction = UIAlertAction(title: "Take A Picture", style: .Default)
+            { action -> Void in
+                
+                picker.delegate = self
+                picker.sourceType = .Camera
+                self.presentViewController(picker, animated: true, completion: nil)
+                
+                
+        }
+        actionSheetController.addAction(takePictureAction)
         
         //We need to provide a popover sourceView when using it on iPad
         actionSheetController.popoverPresentationController?.sourceView = self.view

@@ -103,9 +103,9 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         
         let flowLayoutFull = UICollectionViewFlowLayout()
         flowLayoutFull.sectionInset = UIEdgeInsetsMake(5, 10, 5, 10)
-        flowLayoutFull.itemSize = CGSizeMake(
-            ibo_emojiCollectionView.frame.size.width/5 - 20,
-            ibo_emojiCollectionView.frame.size.width/5 - 20)
+//        flowLayoutFull.itemSize = CGSizeMake(
+//            ibo_emojiCollectionView.frame.size.width/5 - 20,
+//            ibo_emojiCollectionView.frame.size.width/5 - 20)
         flowLayoutFull.scrollDirection = .Vertical
         flowLayoutFull.minimumLineSpacing = 0
         
@@ -114,6 +114,13 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         ibo_emojiCollectionView.setCollectionViewLayout(flowLayoutFull, animated: false)
         //ibo_emojiCollectionView.scrollRectToVisible(CGRectMake(0, 0, 10, 10), animated: false)
     
+    }
+    
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            return CGSizeMake(collectionView.bounds.size.width/7 - 10,
+                collectionView.bounds.size.width/7 - 10)
     }
     
     @IBAction func iba_toggleEmojiType(btn:UIButton){
