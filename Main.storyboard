@@ -758,6 +758,8 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="ibo_bottomPhotoEdit" destination="h5f-IL-WRN" id="xd6-IU-ycx"/>
+                        <outlet property="ibo_btn_redo" destination="Kut-Xy-6cw" id="XWp-sB-H1j"/>
+                        <outlet property="ibo_btn_undo" destination="Puw-Ve-72I" id="B8x-L2-1Dy"/>
                         <outlet property="ibo_drawView" destination="N4z-hU-QGK" id="h2o-Z4-F2i"/>
                         <outlet property="ibo_emojiButton" destination="Ofx-VJ-iLq" id="DOc-p6-n1b"/>
                         <outlet property="ibo_renderView" destination="XXO-Vt-9My" id="eSm-u2-qyN"/>

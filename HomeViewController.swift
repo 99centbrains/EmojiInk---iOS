@@ -32,6 +32,9 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
     
     @IBOutlet weak var ibo_bottomPhotoEdit:UIToolbar!
     
+    @IBOutlet weak var ibo_btn_undo:UIButton!
+    @IBOutlet weak var ibo_btn_redo:UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,6 +79,10 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
             ibo_drawView.setUp()
             ibo_drawView.currImage = currentEmoji.CGImage
             ibo_emojiButton.setImage(UIImage(CGImage: ibo_drawView.currImage!), forState: .Normal)
+            
+            ibo_drawView.btn_redo = ibo_btn_redo
+            ibo_drawView.btn_undo = ibo_btn_undo
+            
         
         }
         

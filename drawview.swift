@@ -29,6 +29,9 @@ class DrawView : UIView {
     var canDraw:Bool = true;
     var scaleFactor:CGFloat?;
     
+    var btn_undo:UIButton!
+    var btn_redo:UIButton!
+    
     required init?(coder aDecoder: (NSCoder!)){
         super.init(coder: aDecoder);
     }
@@ -62,6 +65,15 @@ class DrawView : UIView {
         
         if(canDraw){
             
+           
+            
+            btn_redo.selected = false
+            
+            print("history.emo.count \(history.emo.count)")
+            if (history.emo.count >= 0){
+                btn_undo.selected = true
+            }
+            
             if let touch = touches.first {
                 
                 draw(touch, next:true);
@@ -87,7 +99,7 @@ class DrawView : UIView {
         
         newPoint = touch.locationInView(self);
         
-        print(newPoint)
+        //print(newPoint)
         newPoint.x *= scaleFactor!;
         newPoint.y *= scaleFactor!;
         
@@ -155,9 +167,30 @@ class DrawView : UIView {
         clearContext();
         history.undo(self);
         
+        print("CURRENT: \(history.current)")
+        print("MAX: \(history.max)")
+        
+        
+        if (history.current > history.max){
+            btn_redo.selected = true
+        }
+        
+        if (history.max < 0){
+            btn_undo.selected = false
+        }
+        
     }
     
     func redo(){
+        
+        print("CURRENT: \(history.current)")
+        print("MAX: \(history.max)")
+        
+        if (history.max == history.current - 1){
+            btn_redo.selected = false
+        }
+        
+        btn_undo.selected = true
         
         clearContext();
         history.redo(self);
@@ -181,6 +214,11 @@ class DrawView : UIView {
     }
     
     func destroyImage(){
+        
+        btn_redo.selected = false
+        btn_undo.selected = false
+        
+        
         history.newDrawing();
         let clearFrame = CGRectMake(0 , 0, screenSize.width*scaleFactor!, screenSize.height*scaleFactor!-(355.5*scaleFactor!))
         let clear = UIImageView(frame: clearFrame)
