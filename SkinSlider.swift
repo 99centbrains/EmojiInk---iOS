@@ -16,28 +16,28 @@ class SkinSlider : UIView {
     var parent:EmojiSelectViewController!;
     var currentDir:Int = 0;
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let pos = touch.locationInView(self);
+            let pos = touch.location(in: self);
             doScroll(pos);
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let pos = touch.locationInView(self);
+            let pos = touch.location(in: self);
             doScroll(pos);
         }
     }
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    func doScroll(location:CGPoint){
+    func doScroll(_ location:CGPoint){
         
         let nrml:Double = Double( (location.y / self.bounds.height)*6 );
         var num:Int = Int(floor(nrml));
@@ -55,7 +55,7 @@ class SkinSlider : UIView {
         }
         parent!.emojis = someArray
         if(num != currentDir){
-            cv!.reloadSections(NSIndexSet(index: 0))
+            cv!.reloadSections(IndexSet(integer: 0))
             currentDir = num;
         }
         //cv!.scrollRectToVisible(CGRectMake(0, 0, 10, 10), animated: false)

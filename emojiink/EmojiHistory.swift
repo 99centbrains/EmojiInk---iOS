@@ -14,10 +14,10 @@ class EmojiHistory {
         
     }
     
-    func nextTap(x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
+    func nextTap(_ x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
         //current = max;
         let cur = current;
-        for(var i = 0; i<(cur-max); i++){
+        for i in 0 ..< (cur-max){
             print("minus = \(current)");
             current -= 1;
             emo.removeLast();
@@ -32,7 +32,7 @@ class EmojiHistory {
         
     }
     
-    func addEmoji(x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
+    func addEmoji(_ x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
         emo[current].append(x:x, y:y, scl:scl, emoji:emoji);
     }
     
@@ -42,7 +42,7 @@ class EmojiHistory {
         emo.removeAll();
     }
     
-    func undo(dv:DrawView){
+    func undo(_ dv:DrawView){
         
         if(max>=0){
             max -= 1;
@@ -51,7 +51,7 @@ class EmojiHistory {
         redraw(dv);
         
     }
-    func redo(dv:DrawView){
+    func redo(_ dv:DrawView){
         
         if(max < current){
             max += 1
@@ -63,12 +63,12 @@ class EmojiHistory {
     
     
     
-    func redraw(dv:DrawView){
+    func redraw(_ dv:DrawView){
         
         
         
-        for(var i = 0; i<emo.count; i++){
-            for(var k = 0; k<emo[i].count; k++){
+        for i in 0 ..< emo.count{
+            for k in 0 ..< emo[i].count{
                 
                 if(i<=max){
                     

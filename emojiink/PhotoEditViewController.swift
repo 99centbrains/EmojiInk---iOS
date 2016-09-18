@@ -10,10 +10,10 @@ import Foundation
 import UIKit
 @objc protocol PhotoEditViewControllerDelegate {
     
-    optional func photoTrash()
-    optional func photoOverlayToggle(toggle:Bool)
+    @objc optional func photoTrash()
+    @objc optional func photoOverlayToggle(_ toggle:Bool)
     
-    optional func photoMoveScale(toggle:Bool)
+    @objc optional func photoMoveScale(_ toggle:Bool)
     
 }
 
@@ -28,9 +28,9 @@ class PhotoEditViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func iba_overlayToggle(id:UISwitch){
+    @IBAction func iba_overlayToggle(_ id:UISwitch){
         
-        delegate.photoOverlayToggle!(id.on)
+        delegate.photoOverlayToggle!(id.isOn)
     
     }
     
@@ -41,18 +41,18 @@ class PhotoEditViewController: UIViewController {
     }
     
     
-    @IBAction func iba_scaleMovePic(id:UIButton){
-        id.selected = true
+    @IBAction func iba_scaleMovePic(_ id:UIButton){
+        id.isSelected = true
         
         if id.tag == 0 {// SCALE
             delegate.photoMoveScale!(true)
-            ibo_btnMove.selected = false
+            ibo_btnMove.isSelected = false
          return
         }
         
         if id.tag == 1 {// MOVE
             delegate.photoMoveScale!(false)
-            ibo_btnRotate.selected = false
+            ibo_btnRotate.isSelected = false
             return
         }
     

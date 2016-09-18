@@ -41,37 +41,37 @@ class DrawView : UIView {
         isActive = true
         screenSize = self.frame
         colorSpace = CGColorSpaceCreateDeviceRGB();
-        bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue);
-        scaleFactor = UIScreen.mainScreen().scale
+        bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue);
+        scaleFactor = UIScreen.main.scale
         let rv = bitmapInfo!;
         
-        ctx = CGBitmapContextCreate(
-            nil,
-            Int(self.frame.size.width * scaleFactor!),
-            Int(self.frame.size.height * scaleFactor!),
-            8,
-            Int(self.frame.size.width * scaleFactor! * 4),
-            colorSpace!,
-            rv.rawValue)
+        ctx = CGContext(
+            data: nil,
+            width: Int(self.frame.size.width * scaleFactor!),
+            height: Int(self.frame.size.height * scaleFactor!),
+            bitsPerComponent: 8,
+            bytesPerRow: Int(self.frame.size.width * scaleFactor! * 4),
+            space: colorSpace!,
+            bitmapInfo: rv.rawValue)
         
-        CGContextSetFillColorWithColor(ctx, UIColor.clearColor().CGColor)
+        ctx?.setFillColor(UIColor.clear.cgColor)
         //CGContextSetRGBFillColor(ctx!, 1.0, 1.0, 1.0, 1.0);
-        CGContextFillRect(ctx!, CGRectMake(0, 0, screenSize.width * scaleFactor!, screenSize.height * scaleFactor!));
+        ctx!.fill(CGRect(x: 0, y: 0, width: screenSize.width * scaleFactor!, height: screenSize.height * scaleFactor!));
         self.setNeedsDisplay();
         
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if(canDraw){
             
            
             
-            btn_redo.selected = false
+            btn_redo.isSelected = false
             
             print("history.emo.count \(history.emo.count)")
             if (history.emo.count >= 0){
-                btn_undo.selected = true
+                btn_undo.isSelected = true
             }
             
             if let touch = touches.first {
@@ -83,7 +83,7 @@ class DrawView : UIView {
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if(canDraw){
             //if let touch = touches.first as! UITouch {
@@ -94,10 +94,10 @@ class DrawView : UIView {
         
     }
     
-    func draw(touch:UITouch, next:Bool){
+    func draw(_ touch:UITouch, next:Bool){
         
         
-        newPoint = touch.locationInView(self);
+        newPoint = touch.location(in: self);
         
         //print(newPoint)
         newPoint.x *= scaleFactor!;
@@ -127,23 +127,23 @@ class DrawView : UIView {
     
     
     
-    override func drawRect(rect: CGRect) {
-        let context:CGContextRef = UIGraphicsGetCurrentContext()!;
-        let cacheImage:CGImageRef = CGBitmapContextCreateImage(ctx!)!;
-        CGContextDrawImage(context, self.bounds, cacheImage);
+    override func draw(_ rect: CGRect) {
+        let context:CGContext = UIGraphicsGetCurrentContext()!;
+        let cacheImage:CGImage = ctx!.makeImage()!;
+        context.draw(cacheImage, in: self.bounds);
     }
     
     
     
-    func drawToCache(x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
+    func drawToCache(_ x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
         
         //let img = currImage
         let img = emoji;
         
-        CGContextSaveGState(ctx!);
+        ctx!.saveGState();
         
         //CGContextTranslateCTM(ctx, 0.0, CGFloat(currSize));
-        CGContextScaleCTM(ctx!, 1.0, -1.0);
+        ctx!.scaleBy(x: 1.0, y: -1.0);
         
         let fnlSze = scl;
         
@@ -154,9 +154,9 @@ class DrawView : UIView {
             height:CGFloat(fnlSze * scaleFactor!));
         
         //CGContextDrawImage(ctx!, imageRect, currImage);
-        CGContextDrawImage(ctx!, imageRect, img);
+        ctx!.draw(img, in: imageRect);
         
-        CGContextRestoreGState(ctx!);
+        ctx!.restoreGState();
         
         self.setNeedsDisplay();
         
@@ -172,11 +172,11 @@ class DrawView : UIView {
         
         
         if (history.current > history.max){
-            btn_redo.selected = true
+            btn_redo.isSelected = true
         }
         
         if (history.max < 0){
-            btn_undo.selected = false
+            btn_undo.isSelected = false
         }
         
     }
@@ -187,10 +187,10 @@ class DrawView : UIView {
         print("MAX: \(history.max)")
         
         if (history.max == history.current - 1){
-            btn_redo.selected = false
+            btn_redo.isSelected = false
         }
         
-        btn_undo.selected = true
+        btn_undo.isSelected = true
         
         clearContext();
         history.redo(self);
@@ -199,43 +199,42 @@ class DrawView : UIView {
     
     func clearContext(){
         
-        CGContextClearRect(self.ctx!, CGRectMake(0 , 0, self.screenSize.width*self.scaleFactor!, self.screenSize.height*self.scaleFactor!));
-        CGContextSetFillColorWithColor(self.ctx, UIColor.clearColor().CGColor)
-        CGContextFillRect(self.ctx!, CGRectMake(0, 0, self.screenSize.width * self.scaleFactor!, self.screenSize.height * self.scaleFactor!));
+        self.ctx!.clear(CGRect(x: 0 , y: 0, width: self.screenSize.width*self.scaleFactor!, height: self.screenSize.height*self.scaleFactor!));
+        self.ctx?.setFillColor(UIColor.clear.cgColor)
+        self.ctx!.fill(CGRect(x: 0, y: 0, width: self.screenSize.width * self.scaleFactor!, height: self.screenSize.height * self.scaleFactor!));
         self.setNeedsDisplay();
         
     }
 
     
-    func setDrawImg(img:String, sze:CGFloat){
+    func setDrawImg(_ img:String, sze:CGFloat){
         //currImageNumber = Int(img)!
-        currImage = UIImage(named: "emojis/\(img).png")?.CGImage;
+        currImage = UIImage(named: "emojis/\(img).png")?.cgImage;
         currSize = sze;
     }
     
     func destroyImage(){
         
-        btn_redo.selected = false
-        btn_undo.selected = false
+        btn_redo.isSelected = false
+        btn_undo.isSelected = false
         
         
         history.newDrawing();
-        let clearFrame = CGRectMake(0 , 0, screenSize.width*scaleFactor!, screenSize.height*scaleFactor!-(355.5*scaleFactor!))
+        let clearFrame = CGRect(x: 0 , y: 0, width: screenSize.width*scaleFactor!, height: screenSize.height*scaleFactor!-(355.5*scaleFactor!))
         let clear = UIImageView(frame: clearFrame)
-        clear.backgroundColor = UIColor.whiteColor()
+        clear.backgroundColor = UIColor.white
         clear.alpha = 0;
-        clear.hidden = false
+        clear.isHidden = false
         self.addSubview(clear)
         
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        UIView.animate(withDuration: 0.3, animations: { () -> Void in
             clear.alpha =
             1;
         })
         
-        let delay = dispatch_time(DISPATCH_TIME_NOW,
-            Int64(0.3 * Double(NSEC_PER_SEC)))
-        dispatch_after(delay, dispatch_get_main_queue()) {
-            clear.hidden = true;
+        let delay = DispatchTime.now() + Double(Int64(0.3 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delay) {
+            clear.isHidden = true;
             /*
             CGContextClearRect(self.ctx!, CGRectMake(0 , 0, self.screenSize.width*self.scaleFactor!, self.screenSize.height*self.scaleFactor!));
             CGContextSetRGBFillColor(self.ctx!, 1.0, 1.0, 1.0, 1.0);
@@ -247,26 +246,26 @@ class DrawView : UIView {
     }
     
     
-    func getImage()->NSData{
+    func getImage()->Data{
         
-        let ctxImg = UIImage(CGImage: CGBitmapContextCreateImage(ctx!)!).CGImage;
+        let ctxImg = UIImage(cgImage: ctx!.makeImage()!).cgImage;
         
-        let output = CGBitmapContextCreate(nil,Int(screenSize.width * scaleFactor!),Int(screenSize.height * scaleFactor!),8,Int(screenSize.width * scaleFactor! * 4),colorSpace!,bitmapInfo!.rawValue);
+        let output = CGContext(data: nil,width: Int(screenSize.width * scaleFactor!),height: Int(screenSize.height * scaleFactor!),bitsPerComponent: 8,bytesPerRow: Int(screenSize.width * scaleFactor! * 4),space: colorSpace!,bitmapInfo: bitmapInfo!.rawValue);
         
-        CGContextSaveGState(output);
+        output?.saveGState();
         
-        CGContextTranslateCTM(output, 0, screenSize.height * scaleFactor!);
-        CGContextScaleCTM(output, 1.0, -1.0);
+        output?.translateBy(x: 0, y: screenSize.height * scaleFactor!);
+        output?.scaleBy(x: 1.0, y: -1.0);
         
         let imageRect = CGRect(x:0.0, y:0.0, width:screenSize.width * scaleFactor!, height:screenSize.height * scaleFactor!);
         
-        CGContextDrawImage(output, imageRect, ctxImg);
+        output?.draw(ctxImg!, in: imageRect);
         
-        let imageRef = CGBitmapContextCreateImage(output);
-        let image = UIImage(CGImage: imageRef!);
+        let imageRef = output?.makeImage();
+        let image = UIImage(cgImage: imageRef!);
         let imageData = UIImagePNGRepresentation(image);
         
-        CGContextRestoreGState(output);
+        output?.restoreGState();
         
         return imageData!;
         

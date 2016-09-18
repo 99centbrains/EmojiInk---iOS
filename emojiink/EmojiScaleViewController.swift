@@ -23,11 +23,11 @@ class EmojiScaleViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
     
-    func setValueSlider(value:CGFloat){
+    func setValueSlider(_ value:CGFloat){
         
         ibo_emojiSlider.value = Float(value)
    

@@ -13,33 +13,33 @@ class ColorSlider : UIView {
     
     var cv:UICollectionView!; // collection view to manipulate scroll view
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let pos = touch.locationInView(self);
+            let pos = touch.location(in: self);
             doScroll(pos);
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
-            let pos = touch.locationInView(self);
+            let pos = touch.location(in: self);
             doScroll(pos);
         }
     }
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    func doScroll(location:CGPoint){
+    func doScroll(_ location:CGPoint){
         
         let nrml = location.y / self.bounds.height;
         print(nrml);
         
-        let hght = cv!.collectionViewLayout.collectionViewContentSize().height;
+        let hght = cv!.collectionViewLayout.collectionViewContentSize.height;
         
         var yScrollPos:CGFloat = CGFloat( (hght)  * nrml);
         
@@ -51,7 +51,7 @@ class ColorSlider : UIView {
             yScrollPos = hght;
         }
         
-        cv!.contentOffset = CGPointMake(0,yScrollPos);
+        cv!.contentOffset = CGPoint(x: 0,y: yScrollPos);
         
     }
 

@@ -18,28 +18,28 @@ class SkinSelect: UIView {
     }
     */
     
-    var emojiView = UIView?();
-    var t:CGFloat = 0.0;
-    var dif:CGFloat = 0.0;
-    var parentView = ScaleView?();
+    var emojiView = UIView()
+    var t:CGFloat = 0.0
+    var dif:CGFloat = 0.0
+    var parentVC:ScaleView!
     
     init(pnt:CGPoint, scl:CGPoint, currEmoji:Int, parent:ScaleView){
         
-        parentView = parent;
-        let rct = CGRectMake(0.0, 0.0, scl.x, scl.y);
+        parentVC = parent;
+        let rct = CGRect(x: 0.0, y: 0.0, width: scl.x, height: scl.y);
         super.init(frame:rct);
         self.backgroundColor = UIColor(hue: 0.0, saturation: 0.0, brightness: 0.0, alpha: 0.5);
         
         let esze:CGFloat = 50.0
         
-        let emojiRct = CGRectMake(pnt.x, pnt.y, esze, esze);
+        let emojiRct = CGRect(x: pnt.x, y: pnt.y, width: esze, height: esze);
         emojiView = UIView(frame: emojiRct);
-        self.addSubview(emojiView!);
+        self.addSubview(emojiView);
         
         
-        let img = UIImageView(frame: CGRectMake(0.0, 0.0, esze, esze));
+        let img = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: esze, height: esze));
         img.image = UIImage(named: "emoji/\(currEmoji).png");
-        emojiView!.addSubview(img);
+        emojiView.addSubview(img);
         
     }
     
@@ -47,7 +47,7 @@ class SkinSelect: UIView {
         super.init(coder:aDecoder);
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         //if let touch = touches.first {
             //handleMove(touch, first:true);
@@ -55,7 +55,7 @@ class SkinSelect: UIView {
     
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if let touch = touches.first {
             handleMove(touch, first:false);
@@ -63,25 +63,25 @@ class SkinSelect: UIView {
         
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         killSelf();
         
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         killSelf();
         
     }
     func killSelf(){
         print("asdf");
-        parentView!.killSkinSelect();
+        parentVC.killSkinSelect()
     }
     
-    func handleMove(touch:UITouch, first:Bool ){
+    func handleMove(_ touch:UITouch, first:Bool ){
         
-        let tpos = touch.locationInView(self).y;
+        let tpos = touch.location(in: self).y;
         
         //if(first){
             //t = tpos;

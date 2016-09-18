@@ -8,13 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2329951E1AB9EFB500FF5102 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2329951D1AB9EFB500FF5102 /* Default-568h@2x.png */; };
-		23BE16561ABA64000035AD72 /* icon40.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE164E1ABA64000035AD72 /* icon40.png */; };
-		23BE16571ABA64000035AD72 /* icon58.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE164F1ABA64000035AD72 /* icon58.png */; };
-		23BE16581ABA64000035AD72 /* icon76.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE16501ABA64000035AD72 /* icon76.png */; };
-		23BE16591ABA64000035AD72 /* icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE16511ABA64000035AD72 /* icon80.png */; };
-		23BE165A1ABA64000035AD72 /* icon120.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE16521ABA64000035AD72 /* icon120.png */; };
-		23BE165B1ABA64000035AD72 /* icon152.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE16531ABA64000035AD72 /* icon152.png */; };
-		23BE165C1ABA64000035AD72 /* icon180.png in Resources */ = {isa = PBXBuildFile; fileRef = 23BE16541ABA64000035AD72 /* icon180.png */; };
 		611557EE1AB0F840005A788A /* ScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611557ED1AB0F840005A788A /* ScaleView.swift */; };
 		611557F01AB0F847005A788A /* VMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611557EF1AB0F847005A788A /* VMainViewController.swift */; };
 		611557F21AB0F854005A788A /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611557F11AB0F854005A788A /* DrawView.swift */; };
@@ -31,6 +24,7 @@
 		803DB5491C49E94E00892420 /* ui_btn_emoji_flags_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 803DB5441C49E94E00892420 /* ui_btn_emoji_flags_selected.png */; };
 		803DB54A1C49E94E00892420 /* ui_btn_redo_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 803DB5451C49E94E00892420 /* ui_btn_redo_selected.png */; };
 		803DB54B1C49E94E00892420 /* ui_btn_undo_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 803DB5461C49E94E00892420 /* ui_btn_undo_selected.png */; };
+		80617F4D1D8E70790029B836 /* EmojiSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80617F4C1D8E70790029B836 /* EmojiSelectVC.swift */; };
 		806600171C44D453001948A3 /* ui_btn_camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 8066000E1C44D453001948A3 /* ui_btn_camera.png */; };
 		806600181C44D453001948A3 /* ui_btn_emoji_all.png in Resources */ = {isa = PBXBuildFile; fileRef = 8066000F1C44D453001948A3 /* ui_btn_emoji_all.png */; };
 		806600191C44D453001948A3 /* ui_btn_emoji_faces.png in Resources */ = {isa = PBXBuildFile; fileRef = 806600101C44D453001948A3 /* ui_btn_emoji_faces.png */; };
@@ -42,7 +36,6 @@
 		8066001F1C44D453001948A3 /* ui_btn_undo.png in Resources */ = {isa = PBXBuildFile; fileRef = 806600161C44D453001948A3 /* ui_btn_undo.png */; };
 		806600211C4605BA001948A3 /* emoji in Resources */ = {isa = PBXBuildFile; fileRef = 806600201C4605BA001948A3 /* emoji */; };
 		806600231C46067E001948A3 /* emoji_start.png in Resources */ = {isa = PBXBuildFile; fileRef = 806600221C46067E001948A3 /* emoji_start.png */; };
-		807CB3F41C44C06500A9CFCE /* EmojiSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807CB3F31C44C06500A9CFCE /* EmojiSelectViewController.swift */; };
 		80B584551C9B7F3400F771B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80B584531C9B7F3400F771B6 /* Main.storyboard */; };
 		80B584561C9B7F3400F771B6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B584541C9B7F3400F771B6 /* HomeViewController.swift */; };
 		80C625101C47504200948236 /* PhotoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C6250F1C47504200948236 /* PhotoEditViewController.swift */; };
@@ -62,13 +55,6 @@
 
 /* Begin PBXFileReference section */
 		2329951D1AB9EFB500FF5102 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		23BE164E1ABA64000035AD72 /* icon40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon40.png; sourceTree = "<group>"; };
-		23BE164F1ABA64000035AD72 /* icon58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon58.png; sourceTree = "<group>"; };
-		23BE16501ABA64000035AD72 /* icon76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon76.png; sourceTree = "<group>"; };
-		23BE16511ABA64000035AD72 /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon80.png; sourceTree = "<group>"; };
-		23BE16521ABA64000035AD72 /* icon120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon120.png; sourceTree = "<group>"; };
-		23BE16531ABA64000035AD72 /* icon152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon152.png; sourceTree = "<group>"; };
-		23BE16541ABA64000035AD72 /* icon180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon180.png; sourceTree = "<group>"; };
 		611557ED1AB0F840005A788A /* ScaleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScaleView.swift; sourceTree = "<group>"; };
 		611557EF1AB0F847005A788A /* VMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMainViewController.swift; sourceTree = "<group>"; };
 		611557F11AB0F854005A788A /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
@@ -87,6 +73,7 @@
 		803DB5441C49E94E00892420 /* ui_btn_emoji_flags_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_btn_emoji_flags_selected.png; sourceTree = "<group>"; };
 		803DB5451C49E94E00892420 /* ui_btn_redo_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_btn_redo_selected.png; sourceTree = "<group>"; };
 		803DB5461C49E94E00892420 /* ui_btn_undo_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_btn_undo_selected.png; sourceTree = "<group>"; };
+		80617F4C1D8E70790029B836 /* EmojiSelectVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EmojiSelectVC.swift; path = emojiink/EmojiSelectVC.swift; sourceTree = SOURCE_ROOT; };
 		8066000E1C44D453001948A3 /* ui_btn_camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_btn_camera.png; sourceTree = "<group>"; };
 		8066000F1C44D453001948A3 /* ui_btn_emoji_all.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_btn_emoji_all.png; sourceTree = "<group>"; };
 		806600101C44D453001948A3 /* ui_btn_emoji_faces.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_btn_emoji_faces.png; sourceTree = "<group>"; };
@@ -98,7 +85,6 @@
 		806600161C44D453001948A3 /* ui_btn_undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_btn_undo.png; sourceTree = "<group>"; };
 		806600201C4605BA001948A3 /* emoji */ = {isa = PBXFileReference; lastKnownFileType = folder; path = emoji; sourceTree = "<group>"; };
 		806600221C46067E001948A3 /* emoji_start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emoji_start.png; sourceTree = "<group>"; };
-		807CB3F31C44C06500A9CFCE /* EmojiSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiSelectViewController.swift; sourceTree = "<group>"; };
 		80B584531C9B7F3400F771B6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		80B584541C9B7F3400F771B6 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = emojiink/HomeViewController.swift; sourceTree = SOURCE_ROOT; };
 		80C6250F1C47504200948236 /* PhotoEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditViewController.swift; sourceTree = "<group>"; };
@@ -131,13 +117,6 @@
 		23BE164D1ABA63F60035AD72 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				23BE164E1ABA64000035AD72 /* icon40.png */,
-				23BE164F1ABA64000035AD72 /* icon58.png */,
-				23BE16501ABA64000035AD72 /* icon76.png */,
-				23BE16511ABA64000035AD72 /* icon80.png */,
-				23BE16521ABA64000035AD72 /* icon120.png */,
-				23BE16531ABA64000035AD72 /* icon152.png */,
-				23BE16541ABA64000035AD72 /* icon180.png */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -163,7 +142,7 @@
 				6191CF7C1AB0F7D5001AEF70 /* LaunchScreen.xib */,
 				80B584531C9B7F3400F771B6 /* Main.storyboard */,
 				80B584541C9B7F3400F771B6 /* HomeViewController.swift */,
-				807CB3F31C44C06500A9CFCE /* EmojiSelectViewController.swift */,
+				80617F4C1D8E70790029B836 /* EmojiSelectVC.swift */,
 				80C6250F1C47504200948236 /* PhotoEditViewController.swift */,
 				80E598CC1C4CA804005E93C3 /* EmojiScaleViewController.swift */,
 				611557F11AB0F854005A788A /* DrawView.swift */,
@@ -302,6 +281,7 @@
 					6191CF6D1AB0F7D5001AEF70 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 7GU5NSV9J2;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 1;
@@ -337,8 +317,6 @@
 				8066001F1C44D453001948A3 /* ui_btn_undo.png in Resources */,
 				2329951E1AB9EFB500FF5102 /* Default-568h@2x.png in Resources */,
 				806600211C4605BA001948A3 /* emoji in Resources */,
-				23BE165C1ABA64000035AD72 /* icon180.png in Resources */,
-				23BE165B1ABA64000035AD72 /* icon152.png in Resources */,
 				806600191C44D453001948A3 /* ui_btn_emoji_faces.png in Resources */,
 				8066001E1C44D453001948A3 /* ui_btn_scale.png in Resources */,
 				803DB5481C49E94E00892420 /* ui_btn_emoji_faces_selected.png in Resources */,
@@ -346,19 +324,14 @@
 				80C625141C475B7400948236 /* ui_slider_skin.png in Resources */,
 				806600231C46067E001948A3 /* emoji_start.png in Resources */,
 				803DB54A1C49E94E00892420 /* ui_btn_redo_selected.png in Resources */,
-				23BE16571ABA64000035AD72 /* icon58.png in Resources */,
 				80C625131C475B7400948236 /* ui_slider_color.png in Resources */,
 				DC3E2EED1BE1F29D0024134A /* icons.xcassets in Resources */,
 				6191CF7E1AB0F7D5001AEF70 /* LaunchScreen.xib in Resources */,
 				8066001A1C44D453001948A3 /* ui_btn_emoji_flags.png in Resources */,
-				23BE16561ABA64000035AD72 /* icon40.png in Resources */,
 				8066001C1C44D453001948A3 /* ui_btn_move.png in Resources */,
 				80F8BC901C5434F200905ED9 /* iap_list_colors.plist in Resources */,
 				80B584551C9B7F3400F771B6 /* Main.storyboard in Resources */,
 				803DB54B1C49E94E00892420 /* ui_btn_undo_selected.png in Resources */,
-				23BE16591ABA64000035AD72 /* icon80.png in Resources */,
-				23BE16581ABA64000035AD72 /* icon76.png in Resources */,
-				23BE165A1ABA64000035AD72 /* icon120.png in Resources */,
 				806600171C44D453001948A3 /* ui_btn_camera.png in Resources */,
 				8066001B1C44D453001948A3 /* ui_btn_emoji_trash.png in Resources */,
 				806600181C44D453001948A3 /* ui_btn_emoji_all.png in Resources */,
@@ -374,13 +347,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC3E2EF11BE21A5F0024134A /* SkinSelect.swift in Sources */,
-				807CB3F41C44C06500A9CFCE /* EmojiSelectViewController.swift in Sources */,
 				DC36E27D1C5071430031E178 /* SkinSlider.swift in Sources */,
 				8029E2331C7FBF460052F93E /* ReceiptRequestHandler.swift in Sources */,
 				611557EE1AB0F840005A788A /* ScaleView.swift in Sources */,
 				8029E2321C7FBF460052F93E /* ProductRequestHandler.swift in Sources */,
 				8029E2311C7FBF460052F93E /* PaymentRequestHandler.swift in Sources */,
 				8029E2341C7FBF460052F93E /* SwiftInAppPurchase.swift in Sources */,
+				80617F4D1D8E70790029B836 /* EmojiSelectVC.swift in Sources */,
 				6191CF741AB0F7D5001AEF70 /* AppDelegate.swift in Sources */,
 				DC37B2BB1BE1B8600078D3C8 /* PalletCollection.swift in Sources */,
 				61C3029B1AB0FF29001C5945 /* Packs.swift in Sources */,
@@ -504,7 +477,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.awesomeguys.emojiink;
 				PRODUCT_NAME = emoji.ink;
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -520,7 +494,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.awesomeguys.emojiink;
 				PRODUCT_NAME = emoji.ink;
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

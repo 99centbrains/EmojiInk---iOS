@@ -13,7 +13,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
 //class MainViewController: UIViewController{
     
     var currImage = "0";
-    var viewClass = DrawView?();
+    var viewClass:DrawView!
     //var scaleClass = ScaleView?();
     
     //"com.awesomeguys.emojiink.100",
@@ -44,36 +44,36 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     var last = [String]();
     
     @IBOutlet weak var pickerButton: UIButton!
-    @IBAction func pickerInit(sender: AnyObject) {
+    @IBAction func pickerInit(_ sender: AnyObject) {
         viewClass!.canDraw = false;
         scaleClass!.showSelf();
-        redoButton.hidden = true;
-        undoButton.hidden = true;
-        exportButton.hidden = true;
+        redoButton.isHidden = true;
+        undoButton.isHidden = true;
+        exportButton.isHidden = true;
     }
     
-    @IBAction func composeAction(sender: AnyObject) {
-        let alert = UIAlertController(title: "💣💣💣💣💣💣💣", message: "Are you 💯 you want to start all over?", preferredStyle: .Alert);
+    @IBAction func composeAction(_ sender: AnyObject) {
+        let alert = UIAlertController(title: "💣💣💣💣💣💣💣", message: "Are you 💯 you want to start all over?", preferredStyle: .alert);
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
             UIAlertAction in
             self.viewClass!.destroyImage();
         }
-        let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.Cancel) {
+        let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel) {
             UIAlertAction in
-            self.dismissViewControllerAnimated(true, completion: nil);
+            self.dismiss(animated: true, completion: nil);
         }
         
         alert.addAction(yesAction);
         alert.addAction(noAction);
         
-        self.presentViewController(alert, animated: true, completion: nil);
+        self.present(alert, animated: true, completion: nil);
         
     }
 
     @IBOutlet weak var scaleClass: ScaleView!
     
-    @IBAction func tshirtAction(sender: AnyObject) {
+    @IBAction func tshirtAction(_ sender: AnyObject) {
 
         let obj = self.viewClass!.getImage();
         
@@ -83,11 +83,11 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         let img = UIImage(data: obj);
         let yoshirtRefURL:String = "yoshirt://design?pb=1&yscid=AppHook&referring_app=emojiink&rid=tight";
         
-        UIPasteboard.generalPasteboard().image = img
-        let yoshirtURL = NSURL(string: yoshirtRefURL)
-        UIApplication.sharedApplication().openURL(yoshirtURL!)
+        UIPasteboard.general.image = img
+        let yoshirtURL = URL(string: yoshirtRefURL)
+        UIApplication.shared.openURL(yoshirtURL!)
         
-        UIApplication.sharedApplication().openURL(NSURL(string: "Yoshirt://")!);
+        UIApplication.shared.openURL(URL(string: "Yoshirt://")!);
         
         //let controller = UIActivityViewController(activityItems: arr as [AnyObject], applicationActivities: nil);
         
@@ -95,7 +95,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         
     }
     
-    @IBAction func exportAction(sender: AnyObject) {
+    @IBAction func exportAction(_ sender: AnyObject) {
         
         let obj = self.viewClass!.getImage();
         
@@ -104,7 +104,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         
         let controller = UIActivityViewController(activityItems: arr as [AnyObject], applicationActivities: nil);
         
-         self.presentViewController(controller, animated: true, completion: nil);
+         self.present(controller, animated: true, completion: nil);
         
     }
     
@@ -117,15 +117,15 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         scaleClass.setupLayout();
         
         //for(var i = 1; i<1611; i++){
-        for(var i = 1; i<=1601; i++){
+        for i in 1 ..< 1601 {
             emojis.append("emojis/\(i).png");
         }
-        for(var k = 1602; k<=1611; k++){
+        for k in 1602 ..< 1611 {
             last.append("emojis/\(k).png");
         }
         
         //in app
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self);
+        SKPaymentQueue.default().add(self);
         self.getProductInfo();
         
         setupLayout();
@@ -136,41 +136,41 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         super.didReceiveMemoryWarning();
     }
     
-    func setDrawImg(img:String, sze:CGFloat){
+    func setDrawImg(_ img:String, sze:CGFloat){
         //viewClass!.setDrawImg(img, sze:sze);
         viewClass!.canDraw = true;
-        pickerButton.setImage(UIImage(named: "emojis/\(img).png"), forState: .Normal);
+        pickerButton.setImage(UIImage(named: "emojis/\(img).png"), for: UIControlState());
     }
     
     
     //in app
     
     
-    func initBuy(str:String, emojis:String){
+    func initBuy(_ str:String, emojis:String){
         var costString:String = "¢99";
         
         if(str == "100 Pack"){
             costString = "$99";
         }
         
-        let alert = UIAlertController(title: "Buy the \(str)", message: "\(costString) for \(emojis)", preferredStyle: .Alert);
+        let alert = UIAlertController(title: "Buy the \(str)", message: "\(costString) for \(emojis)", preferredStyle: .alert);
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default) {
+        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
             UIAlertAction in
             //self.scaleClass!.unlockProduct(str);
             self.parseProduct(str);
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
             UIAlertAction in
-            self.dismissViewControllerAnimated(true, completion: nil);
+            self.dismiss(animated: true, completion: nil);
         }
-        let allAction = UIAlertAction(title: "Unlock all 7 Packs for $4.99 ", style: UIAlertActionStyle.Default) {
+        let allAction = UIAlertAction(title: "Unlock all 7 Packs for $4.99 ", style: UIAlertActionStyle.default) {
             UIAlertAction in
             //self.scaleClass!.unlockProduct("all");
             self.parseProduct("all");
         }
         
-        let restoreAction = UIAlertAction(title: "Restore In App Purchaces", style: UIAlertActionStyle.Default) {
+        let restoreAction = UIAlertAction(title: "Restore In App Purchaces", style: UIAlertActionStyle.default) {
             UIAlertAction in
             self.restorePurchases();
             //self.scaleClass!.unlockProduct(str);
@@ -185,13 +185,13 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
             alert.addAction(allAction)
         }
         
-        self.presentViewController(alert, animated: true, completion: nil);
+        self.present(alert, animated: true, completion: nil);
         
     }
     
     func restorePurchases(){
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self);
-        SKPaymentQueue.defaultQueue().restoreCompletedTransactions();
+        SKPaymentQueue.default().add(self);
+        SKPaymentQueue.default().restoreCompletedTransactions();
     }
    
     
@@ -228,7 +228,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
 
     }
     
-    func productsRequest(request: SKProductsRequest, didReceiveResponse response: SKProductsResponse){
+    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse){
         
         let products = response.products;
         
@@ -244,7 +244,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         //
     }
     
-    func parseProduct(str:String){
+    func parseProduct(_ str:String){
         print("str = \(str)");
         print("list length = \(list.count)");
         for product in list{
@@ -263,29 +263,29 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     
     func buyProduct() {
         let pay = SKPayment(product: p);
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self);
-        SKPaymentQueue.defaultQueue().addPayment(pay as SKPayment);
+        SKPaymentQueue.default().add(self);
+        SKPaymentQueue.default().add(pay as SKPayment);
     }
     
     
-    func handlePurchase(str:String){
+    func handlePurchase(_ str:String){
         let packString:String = comPacks[str]!;
         self.scaleClass!.unlockProduct(packString);
     }
     
-    func paymentQueue(queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]){
+    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]){
         for transaction:AnyObject in transactions {
             if let trans:SKPaymentTransaction = transaction as? SKPaymentTransaction{
                 switch trans.transactionState {
-                    case .Purchased:
+                    case .purchased:
                         self.handlePurchase(p.productIdentifier as String);
-                        SKPaymentQueue.defaultQueue().finishTransaction(transaction as! SKPaymentTransaction)
+                        SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                         break;
-                    case .Failed:
-                        SKPaymentQueue.defaultQueue().finishTransaction(transaction as! SKPaymentTransaction)
+                    case .failed:
+                        SKPaymentQueue.default().finishTransaction(transaction as! SKPaymentTransaction)
                         break;
-                    case .Restored:
-                        SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
+                    case .restored:
+                        SKPaymentQueue.default().restoreCompletedTransactions()
                         break
                     default:
                         break;
@@ -305,11 +305,11 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     }
     
     @IBOutlet weak var sclBgButton: UIButton!
-    @IBAction func sclBgButtonPress(sender: AnyObject) {
+    @IBAction func sclBgButtonPress(_ sender: AnyObject) {
         scaleClass.killSelf();
-        redoButton.hidden = false;
-        undoButton.hidden = false;
-        exportButton.hidden = false;
+        redoButton.isHidden = false;
+        undoButton.isHidden = false;
+        exportButton.isHidden = false;
 
     }
     
@@ -325,23 +325,23 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     @IBOutlet weak var collectionHolder: UIScrollView!
     @IBOutlet weak var sclCamera: UIButton!
     
-    @IBAction func cameraAction(sender: AnyObject) {
+    @IBAction func cameraAction(_ sender: AnyObject) {
         
     }
     
-    @IBAction func sclSliderAction(sender: AnyObject) {
+    @IBAction func sclSliderAction(_ sender: AnyObject) {
         scaleClass.sliderValueDidChange( CGFloat(sclSlider.value) );
     }
     
-    @IBAction func sclSwitchAction(sender: AnyObject) {
-        viewClass!.isTouch = sclSwitch.on;
+    @IBAction func sclSwitchAction(_ sender: AnyObject) {
+        viewClass!.isTouch = sclSwitch.isOn;
     }
     
-    @IBAction func undoAction(sender: AnyObject) {
+    @IBAction func undoAction(_ sender: AnyObject) {
         viewClass!.undo();
     }
     
-    @IBAction func redoAction(sender: AnyObject) {
+    @IBAction func redoAction(_ sender: AnyObject) {
         viewClass!.redo()
     }
     
@@ -351,7 +351,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         scaleClass.camButton = sclCamera;
         
         scaleClass.translatesAutoresizingMaskIntoConstraints = true;
-        scaleClass.frame = CGRectMake(0.0, 0.0, self.view.frame.width, self.view.frame.height);
+        scaleClass.frame = CGRect(x: 0.0, y: 0.0, width: self.view.frame.width, height: self.view.frame.height);
         sclBgButton.translatesAutoresizingMaskIntoConstraints = true;
         scaleClass.killButton = sclBgButton;
         sclSwitch.translatesAutoresizingMaskIntoConstraints = true;
@@ -381,61 +381,61 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     }
     
     
-    func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{
+    func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets{
         return UIEdgeInsetsMake(1, 1, 1, 1);
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return emojis.count;
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        cellSize = CGSizeMake((self.view.frame.width/10) - (1), (self.view.frame.width/10) - (1));
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        cellSize = CGSize(width: (self.view.frame.width/10) - (1), height: (self.view.frame.width/10) - (1));
         return cellSize!;
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if(collectionView == palletCollection){
             
-            let pallet:PalletCollection = collectionView.dequeueReusableCellWithReuseIdentifier("Pallet", forIndexPath: indexPath) as! PalletCollection;
-            let img = UIImage(named: emojis[indexPath.row]);
+            let pallet:PalletCollection = collectionView.dequeueReusableCell(withReuseIdentifier: "Pallet", for: indexPath) as! PalletCollection;
+            let img = UIImage(named: emojis[(indexPath as NSIndexPath).row]);
             pallet.img.image = img;
             return pallet;
             
         }else if(collectionView == skinCollection){
             
-            let skin:SkinCollection = collectionView.dequeueReusableCellWithReuseIdentifier("Skin", forIndexPath: indexPath) as! SkinCollection;
-            let img = UIImage(named: emojis[indexPath.row]);
+            let skin:SkinCollection = collectionView.dequeueReusableCell(withReuseIdentifier: "Skin", for: indexPath) as! SkinCollection;
+            let img = UIImage(named: emojis[(indexPath as NSIndexPath).row]);
             skin.img.image = img;
             return skin;
             
         }
         
-        let flag:FlagCollection = collectionView.dequeueReusableCellWithReuseIdentifier("Flag", forIndexPath: indexPath) as! FlagCollection;
-        let img = UIImage(named: emojis[indexPath.row]);
+        let flag:FlagCollection = collectionView.dequeueReusableCell(withReuseIdentifier: "Flag", for: indexPath) as! FlagCollection;
+        let img = UIImage(named: emojis[(indexPath as NSIndexPath).row]);
         flag.img.image = img;
         return flag;
         
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if(collectionView == palletCollection){
-            scaleClass.buttonAction("\(indexPath.row+1)")
+            scaleClass.buttonAction("\((indexPath as NSIndexPath).row+1)")
         }else if(collectionView == skinCollection){
-            scaleClass.buttonAction("\(indexPath.row+1)")
+            scaleClass.buttonAction("\((indexPath as NSIndexPath).row+1)")
         }else if(collectionView == flagCollection){
-            scaleClass.buttonAction("\(indexPath.row+1)")
+            scaleClass.buttonAction("\((indexPath as NSIndexPath).row+1)")
         }
         
     }
     
-    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         
-        let attr = collectionView.layoutAttributesForItemAtIndexPath(indexPath);
+        let attr = collectionView.layoutAttributesForItem(at: indexPath);
         let fr = attr!.frame;
-        let sup = collectionView.convertRect(fr, toView: self.view);
+        let sup = collectionView.convert(fr, to: self.view);
         
         scaleClass.initSkinSelect(sup.origin);
         
@@ -448,11 +448,11 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     //func collection
     
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize{
         return CGSize(width: 0, height: 0);
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     

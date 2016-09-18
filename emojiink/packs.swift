@@ -41,8 +41,8 @@ class Packs{
     //var packsPurchased:[String:Bool] = ["100 Pack":false, "Animals Pack":false, "Flags Pack":false, "Fruit Pack":false, "Hearts Pack":false, "Pictures Pack":false, "Sports Pack":false, "Vehicles Pack":false];
     var packsPurchased:[String:Bool] = ["100 Pack":false, "Animals Pack":false, "Flags Pack":false, "Fruit Pack":false, "Hearts Pack":false, "Pictures Pack":false, "Sports Pack":false, "Vehicles Pack":false];
     
-    func isPack(i:Int) -> Bool {
-        for(var k = 0; k < payAll.count; k++){
+    func isPack(_ i:Int) -> Bool {
+        for k in 0 ..< payAll.count{
             if( i == payAll[k]){
                 return true;
             }
@@ -50,7 +50,7 @@ class Packs{
         return false;
     }
     
-    func checkPack(i:Int) -> String {
+    func checkPack(_ i:Int) -> String {
         var str = "";
         for (pack, numbers) in numbersDict {
             for number in numbers {
@@ -62,18 +62,18 @@ class Packs{
         return str;
     }
     
-    func getEmojis(str:String) -> String{
+    func getEmojis(_ str:String) -> String{
         let s:String = textDict[str]!;
         return s;
     }
     
-    func setBools(bs:[String:Bool]){
+    func setBools(_ bs:[String:Bool]){
         for (pack, _) in packsPurchased {
             packsPurchased[pack] = bs[pack];
         }
     }
     
-    func isPackPurchased(i:Int) -> Bool{
+    func isPackPurchased(_ i:Int) -> Bool{
         let pack = self.checkPack(i);
         let isPurchased = self.packsPurchased[pack];
         return isPurchased!;
@@ -85,7 +85,7 @@ class Packs{
         //return packsPurchased;
     //}
     
-    func isInPack(i:Int) -> Bool {
+    func isInPack(_ i:Int) -> Bool {
         for (_, numbers) in numbersDict {
             for number in numbers {
                 if(i == number ){
