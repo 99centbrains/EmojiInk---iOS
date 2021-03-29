@@ -32,9 +32,9 @@ class DrawView : UIView {
     var btn_undo:UIButton!
     var btn_redo:UIButton!
     
-    required init?(coder aDecoder: (NSCoder!)){
-        super.init(coder: aDecoder);
-    }
+    required init?(coder aDecoder: NSCoder) {
+            super.init(coder: aDecoder)
+        }
     
     func setUp(){
         
@@ -263,7 +263,7 @@ class DrawView : UIView {
         
         let imageRef = output?.makeImage();
         let image = UIImage(cgImage: imageRef!);
-        let imageData = UIImagePNGRepresentation(image);
+        let imageData = image.pngData();
         
         output?.restoreGState();
         

@@ -36,8 +36,8 @@ class ScaleView: UIView{
     var collectionHolder = UIScrollView()
     var camButton = UIButton()
 
-    required init?(coder aDecoder: (NSCoder!)){
-        super.init(coder: aDecoder);
+    required init?(coder aDecoder: (NSCoder?)){
+        super.init(coder: aDecoder!);
         
         //resetUserDefault();
         

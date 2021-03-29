@@ -9,17 +9,22 @@
 import Foundation
 import UIKit
 
-class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+@objc protocol EmojiSelectViewControllerDelegate {
+    @objc optional func emojiDidFinish(_ emoji:UIImage, size:CGFloat)
+}
+
+class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, EmojiTextPickerVCDelegate {
     
     @IBOutlet var ibo_emojiCollectionView:UICollectionView!
     @IBOutlet weak var ibo_scaleSlider:UISlider!
     
     var delegate:EmojiSelectViewControllerDelegate!
+    var vc_EmojiTextPickerVC: EmojiTextPickerVC!
     var selectedEmoji:UIImage!
     var emojiScale:CGFloat!
     
     var iapReference = [String:String]()
-    
+    var boolInternalBuild = true // MAKE THIS FALSE BEFORE UPDATING APPSTORE
     
     @IBOutlet weak var ibo_emojiSizeSmall:UIImageView!
     @IBOutlet weak var ibo_emojiSizeLarge:UIImageView!
@@ -37,12 +42,11 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
     
     var emojis = [String]()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setCurrentEmoji(selectedEmoji)
-        emojiScale = 40
+        emojiScale = 1.6
         
         let assets = AssetManager().getAssetsForDir(emojiDIR[0])
         for i in assets {
@@ -55,7 +59,6 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         ibo_skinSelector.cv = ibo_emojiCollectionView;
         ibo_skinSelector.parent = self;
         
-        
         /*LOAD PLIST INTO DICTIONARY*/
         var myDict: NSDictionary?
         if let path = Bundle.main.path(forResource: "iap_list_colors", ofType: "plist") {
@@ -65,10 +68,6 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
             self.iapReference = dict as! [String : String]
         }
         
-        
-        //        var productIden = Set<String>()
-        //        productIden.insert("com.99centbrains.blabberlab.labrarian")
-        
         var productIden = Set<String>()
         productIden.insert("com.tight.emojiink.all")
         productIden.insert("com.tight.emojiink.hearts")
@@ -76,25 +75,29 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         productIden.insert("com.tight.emojiink.vegan")
         productIden.insert("com.tight.emojiink.vehicles")
         
-        
         let iap = SwiftInAppPurchase.sharedInstance
         
         iap.requestProducts(productIden) { (products, invalidIdentifiers, error) -> () in
             print(error)
         }
         
-        /*LOAD IAP IDS and REQUEST*/
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        
+        ibo_scaleSlider.setValue(Float(emojiScale), animated: true)
+        print(emojiScale)
+        ibo_emojiSelected.transform = CGAffineTransform(scaleX: CGFloat(emojiScale), y: CGFloat(emojiScale))
+        emojiScale = emojiScale * 40
     }
     
     override func viewDidLayoutSubviews() {
         
         super.viewDidLayoutSubviews()
         
-        
         let flowLayoutFull = UICollectionViewFlowLayout()
-        flowLayoutFull.sectionInset = UIEdgeInsetsMake(5, 10, 5, 10)
+        flowLayoutFull.sectionInset = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         //        flowLayoutFull.itemSize = CGSizeMake(
         //            ibo_emojiCollectionView.frame.size.width/5 - 20,
         //            ibo_emojiCollectionView.frame.size.width/5 - 20)
@@ -115,6 +118,8 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
                       height: collectionView.bounds.size.width/7 - 10)
     }
     
+    
+    
     @IBAction func iba_toggleEmojiType(_ btn:UIButton){
         
         ibo_btn_colors.isSelected = false
@@ -122,7 +127,6 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         ibo_btn_flags.isSelected = false
         
         btn.isSelected = true
-        
         
         switch btn.tag {
             
@@ -150,27 +154,24 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
             
         default:
             print("Some Default Stuffffs")
-            
-            
         }
-        
         
         emojis = []
         ibo_emojiCollectionView.reloadData()
         
-        
         var someArray = [String]()
+        someArray.append("754.png")
         let assets = AssetManager().getAssetsForDir(emojiDIR[btn.tag])
+        
+        print("ASSETS, ", assets)
+       
         for i in assets {
             someArray.append(AssetManager().getFullAsset(i, dir: emojiDIR[btn.tag]))
+            print("ASSETS, ", AssetManager().getFullAsset(i, dir: emojiDIR[btn.tag]))
         }
         emojis = someArray
         ibo_emojiCollectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 10, height: 10), animated: false)
         ibo_emojiCollectionView.reloadSections(IndexSet(integer: 0))
-        
-        
-        //print(emojis.count)
-        
     }
     
     func resizeCollectionView(_ i:CGFloat){
@@ -180,18 +181,11 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
             y: ibo_emojiCollectionView.frame.origin.x,
             width: self.view.frame.size.width - i,
             height: ibo_emojiCollectionView.frame.size.height)
-        
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    
-    
-    
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return emojis.count
@@ -202,22 +196,32 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EmojiSelectCollectionViewCell
         cell.ibo_imageView.image = nil
         cell.locked = false
-        let cellName = self.prettyName(emojis[(indexPath as NSIndexPath).item])
+
         
-        if !UserDefaults.standard.bool(forKey: "com.tight.emojiink.all"){
+        if indexPath.item == 0 {
+
+            cell.backgroundColor = .lightGray
             
-            if let iapKey = self.isLocked(cellName){
-                cell.iapKey = iapKey
-                cell.locked = !self.boolForKey(iapKey)
+        } else {
+            
+            let cellName = self.prettyName(emojis[(indexPath as NSIndexPath).item])
+            cell.backgroundColor = .white
+
+            
+            if !UserDefaults.standard.bool(forKey: "com.tight.emojiink.all"){
+
+                if let iapKey = self.isLocked(cellName){
+                    if boolInternalBuild == false {
+                        cell.iapKey = iapKey
+                        cell.locked = !self.boolForKey(iapKey)
+                    }
+                }
             }
             
-            
+            cell.setupImage(emojis[(indexPath as NSIndexPath).item])
         }
-        
-        
-        cell.setupImage(emojis[(indexPath as NSIndexPath).item])
+       
         return cell
-        
     }
     
     func boolForKey(_ key:String) -> Bool{
@@ -231,37 +235,49 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         for dir in emojiDIR {
             key = key.replacingOccurrences(of: dir, with: "")
         }
-        
         key = key.replacingOccurrences(of: ".png", with: "")
-        
         return key
-        
     }
     
     //CHECKS IF FILE HAS AN IAP ID
     func isLocked(_ name:String) -> String? {
         
         if let value = self.iapReference[self.prettyName(name)]{
-            
             return value
         }
-        
-        
         return nil
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //SLECT IMAGE
         
+        if indexPath.item == 0 {
+            vc_EmojiTextPickerVC = self.storyboard?.instantiateViewController(withIdentifier: "sb_EmojiTextPickerVC") as? EmojiTextPickerVC
+            vc_EmojiTextPickerVC?.delegate = self
+            self.present(vc_EmojiTextPickerVC!, animated: true, completion: nil)
+            return
+        }
+        
         let cell = collectionView.cellForItem(at: indexPath) as! EmojiSelectCollectionViewCell
         let image = cell.ibo_imageView.image
+        
+        if boolInternalBuild {
+            self.setCurrentEmoji(image!)
+            cell.locked = false
+            print("MAKE THIS FALSE BEFORE UPDATING APPSTORE")
+            return
+        }
         
         if cell.locked == false {
             self.setCurrentEmoji(image!)
         } else {
             self.promptLocked(cell.iapKey)
         }
-        
+    }
+    
+    func textEmojiDidFinish(_ emoji:UIImage){
+        vc_EmojiTextPickerVC = nil
+        self.setCurrentEmoji(emoji)
     }
     
     func setCurrentEmoji(_ img:UIImage){
@@ -269,13 +285,10 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         selectedEmoji = img
         
         if selectedEmoji != nil {
-            
             ibo_emojiSizeSmall.image = selectedEmoji
             ibo_emojiSizeLarge.image = selectedEmoji
             ibo_emojiSelected.image = selectedEmoji
-            
         }
-        
     }
     
     func promptLocked(_ id:String){
@@ -286,22 +299,22 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
             title: self.getIAPrompt(id)[0],
             message: self.getIAPrompt(id)[1], preferredStyle: .alert);
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
+        let yesAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.dismiss(animated: true, completion: nil);
             //BEGIN UNLOCK
             self.unlockEmoji(id)
         }
-        let noAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+        let noAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.dismiss(animated: true, completion: nil);
         }
-        let allAction = UIAlertAction(title: "Unlock all 7 Packs", style: UIAlertActionStyle.default) {
+        let allAction = UIAlertAction(title: "Unlock all 7 Packs", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.unlockAll()
         }
         
-        let restore = UIAlertAction(title: "Restore Purchases", style: UIAlertActionStyle.default) {
+        let restore = UIAlertAction(title: "Restore Purchases", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.restorePurchases()
         }
@@ -315,9 +328,7 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
         
         alert.addAction(restore)
         
-        self.present(alert, animated: true, completion: nil);
-        
-        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func getIAPrompt(_ id:String) -> [String]{
@@ -343,13 +354,10 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
             return ["Unlock Packs", "Want to unlock some Stuff"]
         }
         
-        
     }
     
     
     func unlockEmoji(_ id:String){
-        
-        
         
         let iap = SwiftInAppPurchase.sharedInstance
         iap.addPayment(id, userIdentifier: nil) { (result) -> () in
@@ -366,26 +374,10 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
                 break
             }
         }
-        
-        //        IAPManager.sharedManager.purchaseProductWithId(id) { (error) -> Void in
-        //            if error == nil {
-        //                // successful purchase!
-        //                //SHOW SUCCESS
-        //                self.ibo_emojiCollectionView.reloadData()
-        //
-        //            } else {
-        //                // something wrong..
-        //                //ALERT ERROR
-        //            }
-        //        }
-        
-        
     }
     
     func unlockAll(){
-        
         self.unlockEmoji("com.tight.emojiink.all")
-        
     }
     
     func restorePurchases(){
@@ -397,7 +389,6 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
                 UserDefaults.standard.set(true, forKey: productId)
                 paymentQueue.finishTransaction(transaction)
                 self.ibo_emojiCollectionView.reloadData()
-                
                 
                 let alert = UIAlertView(title: "Restored", message: "Purchases have been restored!", delegate: nil, cancelButtonTitle: nil, otherButtonTitles:"Ok")
                 alert.show()
@@ -421,8 +412,7 @@ class EmojiSelectViewController: UIViewController, UICollectionViewDataSource, U
     
     
     @IBAction func iba_dismissVC(){
-        print("dismiss = \(delegate)");
-        delegate.emojiDidFinish!(selectedEmoji, size:emojiScale)
+        self.delegate.emojiDidFinish!(selectedEmoji, size:emojiScale)
         
     }
     
@@ -478,11 +468,7 @@ class EmojiSelectCollectionViewCell: UICollectionViewCell {
     
 }
 
-@objc protocol EmojiSelectViewControllerDelegate {
-    
-    @objc optional func emojiDidFinish(_ emoji:UIImage, size:CGFloat)
-    
-}
+
 
 //EMPTY ARRAY EXTENTION
 extension Array where Element: Equatable {

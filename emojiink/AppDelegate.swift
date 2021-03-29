@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         return true
     }
@@ -48,26 +48,53 @@ class AssetManager:NSObject {
     
     func getAssetsForDir(_ dir:String) -> [String]{
         
+        
         var fileListArray = [String]()
-        
+
         let resourcePath = Bundle.main.resourcePath
-        let fileMGR = FileManager.default
-        
         let path = "\(resourcePath! + dir)"
-        //print("PATH: \(path)")
-        
+
+        let fileMGR = FileManager.default
+
         do {
-            
-            let fileList = try fileMGR.contentsOfDirectory(atPath: path)
-            fileListArray = fileList
-        
+            let contents = try fileMGR.contentsOfDirectory(at: URL(string: path)!,
+                                            includingPropertiesForKeys: nil,
+                                            options: .skipsHiddenFiles)
+            for file in contents {
+                let fileName = file.absoluteString
+                fileListArray.append(fileName.replacingOccurrences(of: "file://" + path, with: ""))
+            }
         } catch {
             print(error)
         }
         
+        let sortedArray = fileListArray.sorted()
         
+        return sortedArray
         
-        return fileListArray
+//        //
+//
+//        var fileListArray = [String]()
+//
+//        let resourcePath = Bundle.main.resourcePath
+//        let fileMGR = FileManager.default
+//
+//        let path = "\(resourcePath! + dir)"
+//        //print("PATH: \(path)")
+//
+//        do {
+//
+//            let fileList = try fileMGR.contentsOfDirectory(atPath: path)
+//            fileListArray = fileList
+//            print(fileListArray)
+//
+//        } catch {
+//            print(error)
+//        }
+//
+//
+//
+//        return fileListArray
     }
     
     //Adds full path to asset in array

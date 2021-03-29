@@ -55,11 +55,11 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     @IBAction func composeAction(_ sender: AnyObject) {
         let alert = UIAlertController(title: "💣💣💣💣💣💣💣", message: "Are you 💯 you want to start all over?", preferredStyle: .alert);
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
+        let yesAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.viewClass!.destroyImage();
         }
-        let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel) {
+        let noAction = UIAlertAction(title: "No", style: UIAlertAction.Style.cancel) {
             UIAlertAction in
             self.dismiss(animated: true, completion: nil);
         }
@@ -139,7 +139,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     func setDrawImg(_ img:String, sze:CGFloat){
         //viewClass!.setDrawImg(img, sze:sze);
         viewClass!.canDraw = true;
-        pickerButton.setImage(UIImage(named: "emojis/\(img).png"), for: UIControlState());
+        pickerButton.setImage(UIImage(named: "emojis/\(img).png"), for: UIControl.State());
     }
     
     
@@ -155,22 +155,22 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
         
         let alert = UIAlertController(title: "Buy the \(str)", message: "\(costString) for \(emojis)", preferredStyle: .alert);
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
+        let yesAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) {
             UIAlertAction in
             //self.scaleClass!.unlockProduct(str);
             self.parseProduct(str);
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.dismiss(animated: true, completion: nil);
         }
-        let allAction = UIAlertAction(title: "Unlock all 7 Packs for $4.99 ", style: UIAlertActionStyle.default) {
+        let allAction = UIAlertAction(title: "Unlock all 7 Packs for $4.99 ", style: UIAlertAction.Style.default) {
             UIAlertAction in
             //self.scaleClass!.unlockProduct("all");
             self.parseProduct("all");
         }
         
-        let restoreAction = UIAlertAction(title: "Restore In App Purchaces", style: UIAlertActionStyle.default) {
+        let restoreAction = UIAlertAction(title: "Restore In App Purchaces", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.restorePurchases();
             //self.scaleClass!.unlockProduct(str);
@@ -382,7 +382,7 @@ class VMainViewController: UIViewController, SKPaymentTransactionObserver, SKPro
     
     
     func collectionView(_ collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets{
-        return UIEdgeInsetsMake(1, 1, 1, 1);
+        return UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1);
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

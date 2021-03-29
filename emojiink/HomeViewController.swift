@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoEditViewControllerDelegate, UIGestureRecognizerDelegate{
+class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate,  UIImagePickerControllerDelegate, UINavigationControllerDelegate, PhotoEditViewControllerDelegate, UIGestureRecognizerDelegate{
     
     @IBOutlet weak var ibo_drawView:DrawView!
     @IBOutlet var vc_emojiSelect:EmojiSelectViewController!
@@ -21,7 +21,7 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
     var importedPhoto:UIImageView!
     
     var vc_photoEditor:PhotoEditViewController!
-    var vc_emojiScaleVC:EmojiScaleViewController!
+    var vc_emojiScaleVC:EmojiScaleSliderVC?
     
     var longTapGesture:UILongPressGestureRecognizer!
     
@@ -55,17 +55,13 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
         longTapGesture.minimumPressDuration = 1.0
         ibo_emojiButton.addGestureRecognizer(longTapGesture)
         
-        
         ibo_renderView.isUserInteractionEnabled = true
-        
         
         UIApplication.shared.setStatusBarHidden(true, with: .slide)
         currentEmoji = UIImage(named: "emoji_start")
         
-        
+        self.ibo_drawView.currSize = 1.6
     }
-    
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -78,12 +74,10 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
         
             ibo_drawView.setUp()
             ibo_drawView.currImage = currentEmoji.cgImage
-            ibo_emojiButton.setImage(UIImage(cgImage: ibo_drawView.currImage!), for: UIControlState())
+            ibo_emojiButton.setImage(UIImage(cgImage: ibo_drawView.currImage!), for: UIControl.State())
             
             ibo_drawView.btn_redo = ibo_btn_redo
             ibo_drawView.btn_undo = ibo_btn_undo
-            
-        
         }
         
         //handleEmojiPress();
@@ -93,13 +87,13 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
         
         let alert = UIAlertController(title: "💣💣💣💣💣💣💣", message: "Are you 💯 you want to start all over?", preferredStyle: .alert);
         
-        let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
+        let yesAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.default) {
             UIAlertAction in
             self.ibo_drawView.destroyImage()
             self.photoTrash()
             
         }
-        let noAction = UIAlertAction(title: "No", style: UIAlertActionStyle.cancel) {
+        let noAction = UIAlertAction(title: "No", style: UIAlertAction.Style.cancel) {
             UIAlertAction in
             self.dismiss(animated: true, completion: nil);
         }
@@ -132,33 +126,40 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
     
     func handleEmojiPress(){
         
-        if vc_emojiSelect == nil {
-            
-            vc_emojiSelect = self.storyboard?.instantiateViewController(withIdentifier: "sb_EmojiSelectViewController") as! EmojiSelectViewController
-            vc_emojiSelect.selectedEmoji = UIImage(cgImage: ibo_drawView.currImage!)
-            vc_emojiSelect.delegate = self
-            
+        if ( self.vc_emojiScaleVC != nil) {
+            self.vc_emojiScaleVC!.view.removeFromSuperview()
+            self.vc_emojiScaleVC!.dismissThis()
+
+            self.vc_emojiScaleVC = nil
+            self.ibo_emojiButton.removeGestureRecognizer(self.panGesture)
+            return
         }
         
-        self.view.addSubview(vc_emojiSelect.view)
+            
+        vc_emojiSelect = self.storyboard?.instantiateViewController(withIdentifier: "sb_EmojiSelectViewController") as? EmojiSelectViewController
+        vc_emojiSelect.selectedEmoji = UIImage(cgImage: ibo_drawView.currImage!)
+        vc_emojiSelect.delegate = self
+        self.vc_emojiSelect.emojiScale = ibo_drawView.currSize / 40
+        self.present(vc_emojiSelect, animated: true, completion: {
+            
+        })
         
-        removeGesters()
 
+
+        removeGesters()
     }
     
     func emojiDidFinish(_ emoji:UIImage, size:CGFloat){
         
-        print("did finish");
-        
-        vc_emojiSelect.view.removeFromSuperview()
+        if ( self.vc_emojiSelect != nil) {
+            self.vc_emojiSelect.dismiss(animated: true) { }
+        }
         
         currentEmoji = emoji
         
-        ibo_emojiButton.setImage(emoji, for: UIControlState())
+        ibo_emojiButton.setImage(emoji, for: UIControl.State())
         ibo_drawView.currImage = currentEmoji.cgImage
         ibo_drawView.currSize = size
-        
-        
     }
     
     /*
@@ -181,20 +182,16 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
         
         renderImage { (image:UIImage) -> () in
             
-            
             var items = [AnyObject]()
             let activities = [UIActivity]()
             
             items.append(image)
             items.append("#EmojiInk" as AnyObject)
             
-            
             let controller = UIActivityViewController(activityItems: items, applicationActivities: activities)
             controller.popoverPresentationController?.sourceView = self.view
             
-            
             self.present(controller, animated: true, completion: nil)
-            
             
         }
         
@@ -331,29 +328,25 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
         //Present the AlertController
         self.present(actionSheetController, animated: true, completion: nil)
         
-        
-        
     }
     
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]){
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        picker.dismiss(animated: true) { () -> Void in
-            
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        picker.dismiss(animated: true) {
+            let originalImage = info[.originalImage] as? UIImage
             
             self.importedPhoto = UIImageView(frame: self.ibo_drawView.frame)
             self.importedPhoto.contentMode = .scaleAspectFill
-            self.importedPhoto.image = image
+            self.importedPhoto.image = originalImage
             self.importedPhoto.isUserInteractionEnabled = false
             self.ibo_renderView.insertSubview(self.importedPhoto, belowSubview: self.ibo_drawView)
             
             self.showPhotoEdit()
-            
-
         }
-    
+
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
         
         picker.dismiss(animated: true, completion: nil)
@@ -375,33 +368,20 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
     
     func photoOverlayToggle(_ toggle:Bool){
         
-        
         if toggle == true {
-            
             self.importedPhoto.alpha = 1.0
-
         } else {
-            
             self.importedPhoto.alpha = 0.5
-            
         }
-        
         self.view.exchangeSubview(at: 0, withSubviewAt: 1)
-    
     }
     
     func photoMoveScale(_ toggle:Bool){
-        
-        
-    
     }
     
     func removeGesters(){
-        
         self.ibo_renderView.removeGestureRecognizer(panGesture)
         self.ibo_renderView.removeGestureRecognizer(pinchGesture)
-
-    
     }
     
     //MARK: - Gesture Handlers
@@ -412,14 +392,13 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
     var lastPinchScale: CGFloat = 1.0
     var currentlyScaling = false
     
-    func stickyPinch(_ recognizer: UIPinchGestureRecognizer) {
+    @objc func stickyPinch(_ recognizer: UIPinchGestureRecognizer) {
         if (self.importedPhoto) != nil {
             if recognizer.state == .ended {
                 currentlyScaling = false
                 lastPinchScale = 1.0
                 return
             }
-            
             
             currentlyScaling = true
             
@@ -431,32 +410,25 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
             self.importedPhoto.transform = newTransform
             
             lastPinchScale = recognizer.scale
-            
         }
-        
     }
     
     var lastMoveCenter = CGPoint(x: 0, y: 0)
-    func stickyMove(_ recognizer: UIPanGestureRecognizer) {
+    @objc func stickyMove(_ recognizer: UIPanGestureRecognizer) {
         
         print(recognizer.translation(in: self.view))
         
         
         if self.vc_emojiScaleVC != nil {
-            self.vc_emojiScaleVC.setValueSlider(recognizer.translation(in: self.view).x)
+           // self.vc_emojiScaleVC.setValueSlider(recognizer.translation(in: self.view).x)
         }
         
         if let sticker = self.importedPhoto {
             
-            
             var newCenter = recognizer.translation(in: self.view)
-            
             if recognizer.state == .began {
-                
                 lastMoveCenter = CGPoint(x: self.importedPhoto.center.x, y: self.importedPhoto.center.y)
-                
             }
-            
             newCenter = CGPoint(x: lastMoveCenter.x + newCenter.x, y: lastMoveCenter.y + newCenter.y)
             sticker.center = newCenter
             
@@ -472,27 +444,25 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
             vc_photoEditor = self.storyboard?.instantiateViewController(withIdentifier: "sb_PhotoEditViewController") as! PhotoEditViewController
             vc_photoEditor.view.frame = CGRect(x: 0, y: ibo_renderView.frame.origin.y, width: self.view.frame.width, height: 50)
             vc_photoEditor.delegate = self
-        
         }
+        
         self.view.addSubview(vc_photoEditor.view)
         ibo_bottomPhotoEdit.isHidden = false
         
         self.ibo_drawView.isUserInteractionEnabled = false
         self.ibo_renderView.addGestureRecognizer(self.panGesture)
         self.ibo_renderView.addGestureRecognizer(self.pinchGesture)
-    
+
     }
     
     func hidePhotoEdit(){
         
         ibo_renderView.isUserInteractionEnabled = false
-        
         if vc_photoEditor != nil {
            vc_photoEditor.view.removeFromSuperview() 
         }
-        
         ibo_bottomPhotoEdit.isHidden = true
-    
+
     }
     
     @IBAction func iba_doneEditingPhoto(){
@@ -501,34 +471,34 @@ class HomeViewController: UIViewController, EmojiSelectViewControllerDelegate, U
         ibo_drawView.isUserInteractionEnabled = true
     }
     
-    
     ////LONG TAP GESTURE
-    func longTap(_ recognizer: UILongPressGestureRecognizer) {
+    @objc func longTap(_ recognizer: UILongPressGestureRecognizer) {
         
         if recognizer.state == .ended {
-            
-            print("ENDED")
-            self.vc_emojiScaleVC.view.removeFromSuperview()
-            self.vc_emojiScaleVC = nil
-            
-            self.ibo_emojiButton.removeGestureRecognizer(self.panGesture)
+            return
+//            print("ENDED")
+//            self.vc_emojiScaleVC.view.removeFromSuperview()
+//            self.vc_emojiScaleVC = nil
+//
+//            self.ibo_emojiButton.removeGestureRecognizer(self.panGesture)
         }
         
         if recognizer.state == .began {
             
+            guard vc_emojiScaleVC == nil else {
+                return
+            }
+            
             self.ibo_emojiButton.addGestureRecognizer(self.panGesture)
             
-            self.vc_emojiScaleVC = storyboard?.instantiateViewController(withIdentifier: "sb_EmojiScaleViewController") as! EmojiScaleViewController
-            self.vc_emojiScaleVC.view.frame = CGRect(x: 0, y: self.view.frame.size.height - 244, width: self.view.frame.width, height: 200)
-            self.vc_emojiScaleVC.selectedEmoji = self.ibo_emojiButton.image(for: UIControlState())
-            self.vc_emojiScaleVC.setupIcons()
-            self.view.addSubview(self.vc_emojiScaleVC.view)
-            print("Began")
+            self.vc_emojiScaleVC = self.storyboard?.instantiateViewController(withIdentifier: "sb_EmojiScaleSliderVC") as? EmojiScaleSliderVC
+            vc_emojiScaleVC?.delegate = self
+            self.vc_emojiScaleVC!.view.frame = CGRect(x: 0, y: self.view.frame.size.height - 244, width: self.view.frame.width, height: 200)
+            self.vc_emojiScaleVC!.selectedEmoji = self.ibo_emojiButton.image(for: UIControl.State())
+            self.vc_emojiScaleVC!.emojiScale = ibo_drawView.currSize / 40
+            self.vc_emojiScaleVC!.setupIcons()
+            self.view.addSubview(self.vc_emojiScaleVC!.view)
         }
-        
     }
     
-   
-
-
 }

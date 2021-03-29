@@ -17,7 +17,7 @@ class EmojiHistory {
     func nextTap(_ x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
         //current = max;
         let cur = current;
-        for i in 0 ..< (cur-max){
+        for _ in 0 ..< (cur-max){
             print("minus = \(current)");
             current -= 1;
             emo.removeLast();
@@ -33,7 +33,7 @@ class EmojiHistory {
     }
     
     func addEmoji(_ x:CGFloat, y:CGFloat, scl:CGFloat, emoji:CGImage){
-        emo[current].append(x:x, y:y, scl:scl, emoji:emoji);
+        emo[current].append((x:x, y:y, scl:scl, emoji:emoji));
     }
     
     func newDrawing(){

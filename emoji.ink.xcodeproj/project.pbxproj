@@ -41,8 +41,9 @@
 		80C625101C47504200948236 /* PhotoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C6250F1C47504200948236 /* PhotoEditViewController.swift */; };
 		80C625131C475B7400948236 /* ui_slider_color.png in Resources */ = {isa = PBXBuildFile; fileRef = 80C625111C475B7400948236 /* ui_slider_color.png */; };
 		80C625141C475B7400948236 /* ui_slider_skin.png in Resources */ = {isa = PBXBuildFile; fileRef = 80C625121C475B7400948236 /* ui_slider_skin.png */; };
-		80E598CD1C4CA804005E93C3 /* EmojiScaleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E598CC1C4CA804005E93C3 /* EmojiScaleViewController.swift */; };
 		80F8BC901C5434F200905ED9 /* iap_list_colors.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80F8BC8F1C5434F200905ED9 /* iap_list_colors.plist */; };
+		A564C23B2611A97C00091A3D /* EmojiScaleSliderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A564C23A2611A97C00091A3D /* EmojiScaleSliderVC.swift */; };
+		A5C16B6126118EC900864D90 /* EmojiTextPickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C16B6026118EC800864D90 /* EmojiTextPickerVC.swift */; };
 		DC36E27D1C5071430031E178 /* SkinSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36E27C1C5071430031E178 /* SkinSlider.swift */; };
 		DC36E27F1C5072550031E178 /* ColorSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36E27E1C5072550031E178 /* ColorSlider.swift */; };
 		DC37B2BB1BE1B8600078D3C8 /* PalletCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC37B2BA1BE1B8600078D3C8 /* PalletCollection.swift */; };
@@ -90,8 +91,9 @@
 		80C6250F1C47504200948236 /* PhotoEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditViewController.swift; sourceTree = "<group>"; };
 		80C625111C475B7400948236 /* ui_slider_color.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_slider_color.png; sourceTree = "<group>"; };
 		80C625121C475B7400948236 /* ui_slider_skin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui_slider_skin.png; sourceTree = "<group>"; };
-		80E598CC1C4CA804005E93C3 /* EmojiScaleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiScaleViewController.swift; sourceTree = "<group>"; };
 		80F8BC8F1C5434F200905ED9 /* iap_list_colors.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = iap_list_colors.plist; path = emojiink/art/iap_list_colors.plist; sourceTree = SOURCE_ROOT; };
+		A564C23A2611A97C00091A3D /* EmojiScaleSliderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmojiScaleSliderVC.swift; path = emojiink/EmojiScaleSliderVC.swift; sourceTree = SOURCE_ROOT; };
+		A5C16B6026118EC800864D90 /* EmojiTextPickerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EmojiTextPickerVC.swift; path = emojiink/EmojiTextPickerVC.swift; sourceTree = SOURCE_ROOT; };
 		DC36E27C1C5071430031E178 /* SkinSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkinSlider.swift; path = ../SkinSlider.swift; sourceTree = "<group>"; };
 		DC36E27E1C5072550031E178 /* ColorSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSlider.swift; sourceTree = SOURCE_ROOT; };
 		DC37B2BA1BE1B8600078D3C8 /* PalletCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PalletCollection.swift; sourceTree = "<group>"; };
@@ -143,8 +145,9 @@
 				80B584531C9B7F3400F771B6 /* Main.storyboard */,
 				80B584541C9B7F3400F771B6 /* HomeViewController.swift */,
 				80617F4C1D8E70790029B836 /* EmojiSelectVC.swift */,
+				A564C23A2611A97C00091A3D /* EmojiScaleSliderVC.swift */,
+				A5C16B6026118EC800864D90 /* EmojiTextPickerVC.swift */,
 				80C6250F1C47504200948236 /* PhotoEditViewController.swift */,
-				80E598CC1C4CA804005E93C3 /* EmojiScaleViewController.swift */,
 				611557F11AB0F854005A788A /* DrawView.swift */,
 				807CB3F51C44C08900A9CFCE /* Utils */,
 				807CB3F61C44C0A600A9CFCE /* OLD */,
@@ -280,7 +283,7 @@
 				TargetAttributes = {
 					6191CF6D1AB0F7D5001AEF70 = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 7GU5NSV9J2;
+						DevelopmentTeam = L2VDMMX4A7;
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
@@ -295,6 +298,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -351,6 +355,7 @@
 				8029E2331C7FBF460052F93E /* ReceiptRequestHandler.swift in Sources */,
 				611557EE1AB0F840005A788A /* ScaleView.swift in Sources */,
 				8029E2321C7FBF460052F93E /* ProductRequestHandler.swift in Sources */,
+				A564C23B2611A97C00091A3D /* EmojiScaleSliderVC.swift in Sources */,
 				8029E2311C7FBF460052F93E /* PaymentRequestHandler.swift in Sources */,
 				8029E2341C7FBF460052F93E /* SwiftInAppPurchase.swift in Sources */,
 				80617F4D1D8E70790029B836 /* EmojiSelectVC.swift in Sources */,
@@ -359,13 +364,13 @@
 				61C3029B1AB0FF29001C5945 /* Packs.swift in Sources */,
 				80C625101C47504200948236 /* PhotoEditViewController.swift in Sources */,
 				DC417DC61BE33B300013844D /* FlagCollection.swift in Sources */,
-				80E598CD1C4CA804005E93C3 /* EmojiScaleViewController.swift in Sources */,
 				DC3E2EEF1BE1F6A30024134A /* EmojiHistory.swift in Sources */,
 				80B584561C9B7F3400F771B6 /* HomeViewController.swift in Sources */,
 				611557F21AB0F854005A788A /* DrawView.swift in Sources */,
 				DC417DC81BE33B6C0013844D /* SkinCollection.swift in Sources */,
 				DC36E27F1C5072550031E178 /* ColorSlider.swift in Sources */,
 				611557F01AB0F847005A788A /* VMainViewController.swift in Sources */,
+				A5C16B6126118EC900864D90 /* EmojiTextPickerVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +424,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "f50ef74a-1fef-4b4f-baf5-02d0e34a03f4";
@@ -457,7 +462,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "f50ef74a-1fef-4b4f-baf5-02d0e34a03f4";
 				SDKROOT = iphoneos;
@@ -471,13 +476,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2.0;
+				DEVELOPMENT_TEAM = L2VDMMX4A7;
 				INFOPLIST_FILE = "$(SRCROOT)/EmojiInk/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.awesomeguys.emojiink;
+				MARKETING_VERSION = 1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frankynines.emojiicom;
 				PRODUCT_NAME = emoji.ink;
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -488,13 +496,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 2.0;
+				DEVELOPMENT_TEAM = L2VDMMX4A7;
 				INFOPLIST_FILE = "$(SRCROOT)/EmojiInk/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.awesomeguys.emojiink;
+				MARKETING_VERSION = 1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frankynines.emojiicom;
 				PRODUCT_NAME = emoji.ink;
 				PROVISIONING_PROFILE = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
